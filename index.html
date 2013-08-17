@@ -3,22 +3,27 @@
   <head>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <script src ="moment.js"></script>
   </head>
   <body>
     <script>
 
       $(document).ready(function(){
         var $body = $('body');
-        $body.html('');
-
-        var index = streams.home.length - 1;
-        while(index >= 0){
-          var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
-          $tweet.appendTo($body);
-          index -= 1;
-        }
+        $("button").on("click", function(){
+          $body.html('');
+          console.log("ran");
+          var index = streams.home.length - 1;
+          console.log(index);
+          
+          while(index >= 0){
+            var tweet = streams.home[index];
+            var $tweet = $('<div></div>');
+            $tweet.text('@' + tweet.user + ': ' + tweet.message + " -- " + moment(tweet.created_at).fromNow());
+            $tweet.appendTo($body);
+            index -= 1;
+          };
+        }, 3000);
 
       });
 

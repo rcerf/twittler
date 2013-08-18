@@ -4,51 +4,17 @@
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
     <script src ="moment.js"></script>
+    <link rel="stylesheet" href="style.css" type="text/css" media="screen">
+
     <title>Twittler</title>
-    <style type="text/css">
-      h1{
-        font-family: helvetica;
-        text-align: center; 
-        color: green;
-      }
-
-      a {
-        color: blue;
-        cursor: pointer;
-      }
-
-      .timeline {
-        font-size: .5em;
-        font-family: helvetica;
-        font-weight: normal;
-        text-align: left;
-        color: black;
-      }
-      .handle {
-        font-weight: bold;
-      }
-      .handle:hover {
-        color: blue;
-        text-decoration: underline;
-        cursor: pointer;
-      }
-
-      .timeStamp {
-        color: grey;
-        font-size: .5em;
-      }
-
-      div {
-        line-height: 1.5em;
-      }
-
-    </style>
   </head>
   <body>
     <h1>Twittler<h1>
-      <div class="timeline"></div>
+    <div class="timeline"></div>
 
     <script>
+
+
       $(document).ready(function(){
         var $timeline = $('.timeline');
         var $a = $('<a class="more"></a>');
@@ -56,7 +22,7 @@
         var index = streams.home.length - 1;
 
         var home = function(){
-          
+
         };
         
 
@@ -105,7 +71,8 @@
 
         }, 3000);
 
-        //on handle click, ids user and loads their profile.
+        //on handle click, ids clicked user and loads their profile.
+          //only tags the initial handles. misses the reload of handles.
         $(".handle").on("click", function(){
           var $user = $(this).text().substr(1);
           console.log($user);

@@ -1,0 +1,35 @@
+h1 {
+  font-family: helvetica;
+  text-align: center; 
+  color: green;
+}
+
+a {
+  color: blue;
+  cursor: pointer;
+}
+
+.timeline {
+  font-size: .5em;
+  font-family: helvetica;
+  font-weight: normal;
+  text-align: left;
+  color: black;
+}
+.handle {
+  font-weight: bold;
+}
+.handle:hover {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.timeStamp {
+  color: grey;
+  font-size: .5em;
+}
+
+div {
+  line-height: 1.5em;
+}

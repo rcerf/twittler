@@ -53,41 +53,59 @@
         var $timeline = $('.timeline');
         var $a = $('<a class="more"></a>');
         var tweets;
+        var index = streams.home.length - 1;
 
+        var home = function(){
+          
+        };
+        
+
+        //
         var loadTimeline =  function(){
           $timeline.html('');
-          var index = streams.home.length - 1;
           tweets = index;
-          
-          while(index >= 0){
-            var tweet = streams.home[index];
+
+          var displayTweets = function(){
             var $tweet = $('<div></div>');
             $tweet.text(': ' + tweet.message+ ' ');
             $("<span>" + moment(tweet.created_at).fromNow() + "</span>").addClass("timeStamp").appendTo($tweet);
             $("<span>"+"@"+tweet.user+"</span>").addClass("handle").prependTo($tweet);
             $tweet.appendTo($timeline);
+          };
 
+          //display tweets in home timeline  
+          while(index >= 0){
+            var tweet = streams.home[index]; //********
+            displayTweets();
             index -= 1;
           };
         };
 
         
-
+        //loads Timeline on initial load.
         loadTimeline();
 
+        //updates the counter of undisplayed tweest.
         setInterval(function(){
+
+          //displays link at top of timeline of # of unloaded tweets.
           if(tweets < streams.home.length -1){
             var numberofTweets = streams.home.length-1-tweets;
             $(".more").remove();
             $a.addClass("more").text("Load " +numberofTweets+" more tweets");
-            $a.prependTo($timeline);
+            $a.prependTo($timeline);   
+          }
 
-            $(".more").on("click", function(){
+          //reloads timeline with new Tweets when .more link is clicked
+          $(".more").on("click", function(){
+              console.log("index redefined");
+              index = streams.home.length - 1;
               loadTimeline();
             });
-          }
+
         }, 3000);
 
+        //on handle click, ids user and loads their profile.
         $(".handle").on("click", function(){
           var $user = $(this).text().substr(1);
           console.log($user);

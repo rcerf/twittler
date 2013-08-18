@@ -6,52 +6,104 @@
     <script src ="moment.js"></script>
     <title>Twittler</title>
     <style type="text/css">
+      h1{
+        font-family: helvetica;
+        text-align: center; 
+        color: green;
+      }
+
       a {
         color: blue;
+        cursor: pointer;
       }
-      a, input[type='submit'], input[type='image'], label[for], select, button, .pointer {
-       cursor: pointer;
-}
+
+      .timeline {
+        font-size: .5em;
+        font-family: helvetica;
+        font-weight: normal;
+        text-align: left;
+        color: black;
+      }
+      .handle {
+        font-weight: bold;
+      }
+      .handle:hover {
+        color: blue;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+
+      .timeStamp {
+        color: grey;
+        font-size: .5em;
+      }
+
+      div {
+        line-height: 1.5em;
+      }
 
     </style>
   </head>
   <body>
+    <h1>Twittler<h1>
+      <div class="timeline"></div>
+
     <script>
       $(document).ready(function(){
-        var $body = $('body');
-        
+        var $timeline = $('.timeline');
+        var $a = $('<a class="more"></a>');
         var tweets;
 
         var loadTimeline =  function(){
-          $body.html('');
+          $timeline.html('');
           var index = streams.home.length - 1;
           tweets = index;
           
           while(index >= 0){
             var tweet = streams.home[index];
             var $tweet = $('<div></div>');
-            $tweet.text('@' + tweet.user + ': ' + tweet.message + " -- " + moment(tweet.created_at).fromNow());
-            $tweet.appendTo($body);
+            $tweet.text(': ' + tweet.message+ ' ');
+            $("<span>" + moment(tweet.created_at).fromNow() + "</span>").addClass("timeStamp").appendTo($tweet);
+            $("<span>"+"@"+tweet.user+"</span>").addClass("handle").prependTo($tweet);
+            $tweet.appendTo($timeline);
+
             index -= 1;
           };
         };
+
+        
 
         loadTimeline();
 
         setInterval(function(){
           if(tweets < streams.home.length -1){
-            $("a").remove();
-            var $load = $('<a></a>');
-            $load.text("Load more tweets");
-            $load.prependTo($body);
+            var numberofTweets = streams.home.length-1-tweets;
+            $(".more").remove();
+            $a.addClass("more").text("Load " +numberofTweets+" more tweets");
+            $a.prependTo($timeline);
 
-            $("a").on("click", function(){
+            $(".more").on("click", function(){
               loadTimeline();
             });
           }
         }, 3000);
 
+        $(".handle").on("click", function(){
+          var $user = $(this).text().substr(1);
+          console.log($user);
+          var index = streams.users.$user.length - 1;
+          $timeline.html(" ");
 
+          while(index >=0){
+            var tweet = streams.users.$user[index];
+            var $tweet = $('<div></div>');
+            $tweet.text(': ' + tweet.message + " -- " + moment(tweet.created_at).fromNow());
+            $("<span>"+"@"+tweet.user+"</span>").addClass("handle").prependTo($tweet);
+            $tweet.appendTo($timeline);
+
+            index -= 1;
+          };
+        });
 
       });
 

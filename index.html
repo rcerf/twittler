@@ -13,18 +13,13 @@
     <div class="timeline"></div>
 
     <script>
-
-
-      $(document).ready(function(){
+    var twittler = {
+      onReady: function(){
         var $timeline = $('.timeline');
         var $a = $('<a class="more"></a>');
         var tweets;
         var index = streams.home.length - 1;
-
-        var home = function(){
-
-        };
-        
+        var tweet;
 
         //
         var loadTimeline =  function(){
@@ -41,10 +36,24 @@
 
           //display tweets in home timeline  
           while(index >= 0){
-            var tweet = streams.home[index]; //********
+              tweet = streams.home[index]; //********
             displayTweets();
             index -= 1;
           };
+
+          //on handle click, ids clicked user and loads their profile.
+            //only tags the initial handles. misses the reload of handles.
+          $(".handle").on("click", function(){
+            var $user = $(this).text().substr(1);
+            index = streams.users[$user].length - 1;
+            $timeline.html(" ");
+
+            while(index >=0){
+              tweet = streams.users[$user][index];
+              displayTweets();
+              index -= 1;
+            }
+          });
         };
 
         
@@ -69,28 +78,14 @@
               loadTimeline();
             });
 
+
         }, 3000);
 
-        //on handle click, ids clicked user and loads their profile.
-          //only tags the initial handles. misses the reload of handles.
-        $(".handle").on("click", function(){
-          var $user = $(this).text().substr(1);
-          console.log($user);
-          var index = streams.users.$user.length - 1;
-          $timeline.html(" ");
 
-          while(index >=0){
-            var tweet = streams.users.$user[index];
-            var $tweet = $('<div></div>');
-            $tweet.text(': ' + tweet.message + " -- " + moment(tweet.created_at).fromNow());
-            $("<span>"+"@"+tweet.user+"</span>").addClass("handle").prependTo($tweet);
-            $tweet.appendTo($timeline);
+      }
+    }
 
-            index -= 1;
-          };
-        });
-
-      });
+      $(document).ready(twittler.onReady);
 
     </script>
   </body>
